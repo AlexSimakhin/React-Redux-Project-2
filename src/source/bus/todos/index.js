@@ -5,7 +5,6 @@ import { useTodos } from './hooks/useTodos';
 import { useTask } from './hooks/useTask';
 
 export const Todos = () => {
-  // const { isFetching, data, error } = useTodos();
   const { isFetching, data} = useTodos();
   const { ifClickedCreateTask, ifClickedTask, _onclickSetClickedCreateTask, _onclickSetClickedTask } = useTask();
   

@@ -9,7 +9,7 @@ const TagNameToClass = {
   'UX': 'fifth',
 }
 
-export const TasksList = ({ _onclickSetClickedTask, data, setInitialValues, resetInitialValues }) => {
+export const TasksList = ({ _onclickSetClickedTask, data, setInitialValues }) => {
 
   const _onclickEvent = (title, deadline, tag, hash, description, completed, checklist) => {
     _onclickSetClickedTask();
@@ -25,7 +25,7 @@ export const TasksList = ({ _onclickSetClickedTask, data, setInitialValues, rese
     });
   };
 
-  console.log(data);
+
   const taskListJSX = data && data.map(({ title, deadline, tag, hash, description, completed, checklist }) => {
     return (
       <div className="task" onClick={() => { _onclickEvent(title, deadline, tag, hash, description, completed, checklist) }} data-hash={hash} key={hash}>

@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {useField} from 'formik';
 
-export const MyTitleInput = ({ ...props }) => {
-  const [field, meta] = useField({ ...props });
-  // console.log(field, meta);
-  meta.value = props.title;
+export const MyTitleInput = ({ title, setFieldValue, ...props }) => {
+  const [field] = useField({ ...props });
+
+  useEffect(() => {
+    setFieldValue(props.name, title);
+  }, [props.name, setFieldValue, title]);
   
   return (
     <>

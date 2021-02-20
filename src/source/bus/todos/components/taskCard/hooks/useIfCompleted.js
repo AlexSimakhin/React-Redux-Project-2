@@ -1,7 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-export const useIfCompleted = (state = false) => {
-  const [ifCompleted, setCompleted] = useState(state);
+export const useIfCompleted = (state) => {
+  const [ifCompleted, setCompleted] = useState(false);
+
+  useEffect(() => {
+    setCompleted(state);
+  }, [state]);
 
   const _onclickSetCompleted = () => {
     ifCompleted ? setCompleted(false) : setCompleted(true);

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 
-// import { initialValuesFormik } from './initialValuesFormik';
+import { initialValuesFormik } from './initialValuesFormik';
 import { validationSchema } from './validationSchema';
 
 import { MyTitleInput } from './formElements/myTitleInput';
@@ -20,7 +20,7 @@ const extend = (obj1, obj2) => {
   return obj1;
 };
 
-export const TaskCard = ({ ifClickedTask, initialValues, setInitialValues, resetInitialValues, initialValuesFormik }) => {
+export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) => {
   const { title, deadline, tag, hash, description, completed, checklist } = initialValues;
   const { ifCompleted, _onclickSetCompleted } = useIfCompleted(completed);
 
@@ -36,7 +36,6 @@ export const TaskCard = ({ ifClickedTask, initialValues, setInitialValues, reset
 
     if (hash) { objReq['hash'] = hash }
 
-    console.log(objReq);
 
     // const response = await api.createTodos.fetch(objReq);
 
@@ -85,47 +84,57 @@ export const TaskCard = ({ ifClickedTask, initialValues, setInitialValues, reset
         initialValues={initialValuesFormik}
         validationSchema={validationSchema}
         onSubmit={createTask}
-        onReset={resetInitialValues}>
+      >
         
 
-        {({ errors, touched }) => (
+        {props => (
           <Form className="content">
+            
             <MyTitleInput
               type="text"
               name="title"
               placeholder="Task title"
-              title={title} />
+              title={title}
+              setFieldValue={props.setFieldValue}
+            />
           
             <DatePickerField
               label="Due to"
               name="deadline"
-              deadline={deadline} />
+              deadline={deadline}
+              setFieldValue={props.setFieldValue}
+            />
           
             <MyTextarea
               label="Description"
               type="text"
               name="description"
               placeholder="Describe your event"
-              description={description} />
+              description={description}
+              setFieldValue={props.setFieldValue}
+            />
           
             <MyChecklist
               label="Checklist"
               type="text"
               name="checklist"
               placeholder="Add more"
-              checklist={checklist} />
+              checklist={checklist}
+            />
 
             <MyRadioButton
               type="radio"
               name="tag"
               options={["Sketch", "Spotify", "Dribble", "Behance", "UX"]}
-              tag={tag} />
+              tag={tag}
+              setFieldValue={props.setFieldValue}
+            />
             
-            {errorsJSX(errors)}
+            {errorsJSX(props.errors)}
                    
             <div className="form-controls">
-              <button className="button-reset-task" type="reset" disabled={touchedFormInputs(touched) > 0 ? false : true}>Reset</button>
-              <button className="button-save-task" type="submit" disabled={touchedFormInputs(touched) > 0 && errorsJSX(errors) === null ? false : true}>Save</button>
+              <button className="button-reset-task" type="reset" disabled={touchedFormInputs(props.touched) > 0 ? false : true}>Reset</button>
+              <button className="button-save-task" type="submit" disabled={touchedFormInputs(props.touched) > 0 && errorsJSX(props.errors) === null ? false : true}>Save</button>
             </div>
           </Form>
         )}
