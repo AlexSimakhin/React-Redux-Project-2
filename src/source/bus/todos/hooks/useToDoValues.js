@@ -1,4 +1,4 @@
-import { useState, createContext } from "react";
+import { useState } from "react";
 
 export const useToDoValues = () => {
   const [initialValues, setInitialValues] = useState({
@@ -33,7 +33,5 @@ export const useToDoValues = () => {
     });
   };
 
-  const FormValues = createContext(initialValues);
-
-  return { initialValues, setInitialValues, resetInitialValues, FormValues };
+  return { initialValues, setInitialValues, resetInitialValues };
 };

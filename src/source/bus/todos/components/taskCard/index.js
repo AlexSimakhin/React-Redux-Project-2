@@ -7,11 +7,11 @@ import { validationSchema } from './validationSchema';
 import { MyTitleInput } from './formElements/myTitleInput';
 import { MyTextarea } from './formElements/myTextarea';
 import { MyRadioButton } from './formElements/myRadioButton';
-import { MyChecklist } from './formElements/myChecklist';
+import { MyChecklist } from './formElements/myChecklist/myChecklist';
 import { DatePickerField } from './formElements/datepickerField';
 import { useIfCompleted } from './hooks/useIfCompleted';
 
-import { api } from '../../../../api';
+// import { api } from '../../../../api';
 
 const extend = (obj1, obj2) => {
   for (const key in obj2) {
@@ -118,8 +118,8 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
               label="Checklist"
               type="text"
               name="checklist"
-              placeholder="Add more"
               checklist={checklist}
+              setFieldValue={props.setFieldValue}
             />
 
             <MyRadioButton
