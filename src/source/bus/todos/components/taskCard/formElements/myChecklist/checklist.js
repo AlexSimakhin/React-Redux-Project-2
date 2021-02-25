@@ -4,12 +4,12 @@ import { useForm } from './useForm';
 
 
 export const Checklist = ({ field, checklist, ifClickedTask, setFieldValue }) => {
-  const { form, handleChange, adtValues, formikValues } = useForm({ field, checklist, ifClickedTask, setFieldValue });
+  const { form, handleChange, formikValues, ifCompletedValues, setIfCompletedValues } = useForm({ field, checklist, ifClickedTask, setFieldValue });
 
   const checklistJSX = [];
 
   for (const value in form) {
-    checklistJSX.push(<ChecklistItem key={String(value)} name={value} value={form[value]} adtValues={adtValues} handleChange={handleChange} formikValues={formikValues} />)
+    checklistJSX.push(<ChecklistItem key={String(value)} name={value} value={form[value]} handleChange={handleChange} formikValues={formikValues} ifCompletedValues={ifCompletedValues} setIfCompletedValues={setIfCompletedValues} />)
   }
 
   return (

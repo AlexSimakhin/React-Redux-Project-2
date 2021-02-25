@@ -2,7 +2,10 @@ import { useState, useEffect } from 'react';
 
 export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
   const [form, setForm] = useState(null);
-  const [adtValues, setAdtValues] = useState(null);
+  const [ifCompletedValues, setIfCompletedValues] = useState({});
+  const [hashValues, setHashValues] = useState({});
+
+  // console.log(ifCompletedValues);
 
   useEffect(() => {
     const formValues = {};
@@ -27,7 +30,10 @@ export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
       formHash[`subTasks.${index}`] = value.hash;
     });
 
-    setAdtValues({ completed: formIfCompleted, hash: formHash });
+    console.log('useEffect', formIfCompleted, formHash);
+
+    setIfCompletedValues(formIfCompleted);
+    setHashValues(formHash);
   }, [checklist]);
   
 
@@ -40,6 +46,8 @@ export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
         [event.target.name]: event.target.value
       }
     });
+
+    formikValues();
   };
 
   const formikValues = () => {
@@ -49,26 +57,28 @@ export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
       for (const key in form) {
         values.push({
           title: form[key],
-          completed: adtValues.completed[key],
-          hash: adtValues.hash[key],
+          completed: ifCompletedValues[key],
+          hash: hashValues[key],
         });
       }
     } else {
       for (const key in form) {
         values.push({
           title: form[key],
-          completed: adtValues.completed[key],
+          completed: ifCompletedValues[key],
         });
       }
     }
 
+    console.log('formikValues', values);
     setFieldValue(field.name, values);
   };
 
   return {
     form,
     handleChange,
-    adtValues,
-    formikValues
+    formikValues,
+    ifCompletedValues,
+    setIfCompletedValues
   }
 };

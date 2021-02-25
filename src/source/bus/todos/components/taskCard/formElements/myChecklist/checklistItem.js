@@ -1,10 +1,22 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-export const ChecklistItem = ({ name, value, adtValues, handleChange, formikValues }) => {
-  const [isChecked, setChecked] = useState(adtValues.completed[name]);
+export const ChecklistItem = ({ name, value, handleChange, formikValues, ifCompletedValues, setIfCompletedValues }) => {
+  const [isChecked, setChecked] = useState(ifCompletedValues[name]);
+
+  useEffect(() => {
+    setIfCompletedValues((prevForm) => {
+      console.log('item', prevForm);
+
+      return {
+        ...prevForm,
+        [name]: isChecked,
+      }
+    });
+  }, [isChecked, name, setIfCompletedValues]);
 
   const _onclickSetChecked = () => {
     isChecked ? setChecked(false) : setChecked(true);
+    formikValues();
   };
 
   return (

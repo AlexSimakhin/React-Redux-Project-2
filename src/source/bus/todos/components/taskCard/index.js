@@ -40,7 +40,7 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
       objReq.hash = String(hash);
     }
 
-    console.log(objReq.checklist);
+    console.log('Submit:', objReq.checklist);
 
     // const response = await api.createTodos.fetch(objReq);
 
