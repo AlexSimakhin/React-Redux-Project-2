@@ -374,14 +374,44 @@ main {
             margin-bottom: 0;
           }
 
-          &::before {
-            content: '';
+          button {
             display: block;
             width: 20px;
             height: 20px;
             border-radius: 2px;
             background-color: $color5;
             margin-right: 14px;
+            border-style: none;
+            outline: none;
+
+            &:hover {
+              cursor: pointer;
+            }
+
+            &.completed {
+              color: $color4;
+
+              &::before {
+                content: "\f00c";
+                font-family: Line Awesome Free;
+                font-weight: 900;
+                color: #fff;
+                background-color: #4d7cfe;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100%;
+                font-size: 15px;
+                border-radius: 2px;
+                outline: none;
+              }
+            }
+
+            &.incompleted {
+              input {
+                color: $color17;
+              }
+            }
           }
 
           input {
@@ -391,27 +421,6 @@ main {
             color: $color4;
 
             &::placeholder {
-              color: $color17;
-            }
-          }
-
-          &.completed {
-            color: $color4;
-
-            &::before {
-              content: '\f00c';
-              font-family: 'Line Awesome Free';
-              font-weight: 900;
-              color: $color6;
-              background-color: $color3;
-              display: flex;
-              justify-content: center;
-              align-items: center;
-            }
-          }
-
-          &.incompleted {
-            input {
               color: $color17;
             }
           }

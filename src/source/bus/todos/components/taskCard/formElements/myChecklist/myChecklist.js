@@ -1,8 +1,10 @@
 import React, {useEffect} from 'react';
 import {useField} from 'formik';
+// import { ChecklistItem } from './checklistItem';
+// import { useForm } from './useForm';
 import { Checklist } from './checklist';
 
-export const MyChecklist = ({ label, checklist, setFieldValue, ...props }) => {
+export const MyChecklist = ({ label, checklist, ifClickedTask, setFieldValue, ...props }) => {
   const [field] = useField({ ...props });
   
   useEffect(() => {
@@ -15,13 +17,15 @@ export const MyChecklist = ({ label, checklist, setFieldValue, ...props }) => {
 
       <div className="sub-tasks">
         
-        <Checklist value={field.value} />
-
-        <div className="sub-task" key={'add-more'}>
-          <input type="text" placeholder="Add more" />
-        </div>
+        <Checklist field={field} checklist={checklist} ifClickedTask={ifClickedTask} setFieldValue={setFieldValue} />
 
       </div>
     </div>
   )
 };
+
+
+
+//  <div className="sub-task" key={'add-more'}>
+//           <input type="text" placeholder="Add more" />
+//         </div>

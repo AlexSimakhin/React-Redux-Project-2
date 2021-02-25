@@ -9,6 +9,4 @@ export const initialValuesFormik = {
     }
   ],
   tag: null,
-  hash: null,
-  completed: null,
 };

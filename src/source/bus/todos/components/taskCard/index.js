@@ -11,31 +11,36 @@ import { MyChecklist } from './formElements/myChecklist/myChecklist';
 import { DatePickerField } from './formElements/datepickerField';
 import { useIfCompleted } from './hooks/useIfCompleted';
 
-// import { api } from '../../../../api';
+import { api } from '../../../../api';
 
-const extend = (obj1, obj2) => {
-  for (const key in obj2) {
-    obj1[key] = obj2[key];
-  };
-  return obj1;
-};
+// const extend = (obj1, obj2) => {
+//   for (const key in obj2) {
+//     obj1[key] = obj2[key];
+//   };
+//   return obj1;
+// };
+
+
 
 export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) => {
   const { title, deadline, tag, hash, description, completed, checklist } = initialValues;
   const { ifCompleted, _onclickSetCompleted } = useIfCompleted(completed);
 
   const createTask = async (values) => {
-    const objReq = {};
-    const date = new Date(values['deadline']);
-    date.setMilliseconds(0.05 * 60 * 60 * 1000);
+    const objReq = values;
 
-    extend(objReq, values);
+    if (ifClickedTask) {
+      const date = new Date(values['deadline']);
+      date.setMilliseconds(0.05 * 60 * 60 * 1000);
 
-    objReq['deadline'] = date.toISOString();
-    objReq['completed'] = ifCompleted;
+      // extendAll(objReq, values);
 
-    if (hash) { objReq['hash'] = hash }
+      objReq.deadline = date.toISOString();
+      objReq.completed = ifCompleted;
+      objReq.hash = String(hash);
+    }
 
+    console.log(objReq.checklist);
 
     // const response = await api.createTodos.fetch(objReq);
 
@@ -48,6 +53,23 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
     //   };
     //   console.log(error);
     // }
+
+    // document.location.reload();
+  };
+
+  const deleteTask = async () => {
+    const response = await api.removeTodoByHash.fetch(hash);
+
+    if (response.status === 204) {
+      console.log('Удалено');
+    } else {
+      const error = {
+        status: response.status,
+      };
+      console.log(error);
+    }
+
+    // document.location.reload();
   };
 
   const errorsJSX = (errors) => {
@@ -62,22 +84,22 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
     ) : null;
   };
 
-  const touchedFormInputs = (touched) => {
-    let touchedArr = [];
+  // const touchedFormInputs = (touched) => {
+  //   let touchedArr = [];
     
-    for (const key in touched) {
-      touchedArr.push(key);
-    }
+  //   for (const key in touched) {
+  //     touchedArr.push(key);
+  //   }
 
-    return touchedArr.length;
-  };
+  //   return touchedArr.length;
+  // };
 
   return (
     <div className="task-card">
       
       <div className="head">
         <button className={`button-complete-task ${ifCompleted ? 'completed' : ''}`} onClick={_onclickSetCompleted}>Mark as complete</button>
-        {ifClickedTask && <button className="button-remove-task" />}
+        {ifClickedTask && <button className="button-remove-task" onClick={deleteTask} />}
       </div>
       
       <Formik
@@ -119,6 +141,7 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
               type="text"
               name="checklist"
               checklist={checklist}
+              ifClickedTask={ifClickedTask}
               setFieldValue={props.setFieldValue}
             />
 
@@ -133,8 +156,8 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
             {errorsJSX(props.errors)}
                    
             <div className="form-controls">
-              <button className="button-reset-task" type="reset" disabled={touchedFormInputs(props.touched) > 0 ? false : true}>Reset</button>
-              <button className="button-save-task" type="submit" disabled={touchedFormInputs(props.touched) > 0 && errorsJSX(props.errors) === null ? false : true}>Save</button>
+              <button className="button-reset-task" type="reset">Reset</button>
+              <button className="button-save-task" type="submit">Save</button>
             </div>
           </Form>
         )}
@@ -143,3 +166,11 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
     </div>
   );
 }
+
+
+
+
+// <div className="form-controls">
+//               <button className="button-reset-task" type="reset" disabled={touchedFormInputs(props.touched) > 0 ? false : true}>Reset</button>
+//               <button className="button-save-task" type="submit" disabled={touchedFormInputs(props.touched) > 0 && errorsJSX(props.errors) === null ? false : true}>Save</button>
+//             </div>
