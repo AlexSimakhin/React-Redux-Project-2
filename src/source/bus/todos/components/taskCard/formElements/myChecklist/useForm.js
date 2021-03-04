@@ -5,7 +5,7 @@ export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
   const [ifCompletedValues, setIfCompletedValues] = useState({});
   const [hashValues, setHashValues] = useState({});
 
-  // console.log(ifCompletedValues);
+  // console.log(form);
 
   useEffect(() => {
     const formValues = {};
@@ -13,7 +13,13 @@ export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
     if (field.value && field.value.length !== 0) {
       field.value.forEach((item, index) => {
         formValues[`subTasks.${index}`] = item.title;
+        
+        if (field.value.length === index + 1) {
+          formValues[`subTasks.${index + 1}`] = '';
+        }
       });
+
+      console.log('formmm', formValues);
 
       setForm(formValues);
     };
@@ -25,12 +31,20 @@ export const useForm = ({ field, checklist, ifClickedTask, setFieldValue }) => {
     const formIfCompleted = {};
     const formHash = {};
 
-    checklist.forEach((value, index) => {
-      formIfCompleted[`subTasks.${index}`] = value.completed;
-      formHash[`subTasks.${index}`] = value.hash;
-    });
+    // console.log(checklist );
 
-    console.log('useEffect', formIfCompleted, formHash);
+    if (checklist.length !== 0) {
+      checklist.forEach((value, index) => {
+        formIfCompleted[`subTasks.${index}`] = value.completed;
+        formHash[`subTasks.${index}`] = value.hash;
+      });
+    } else {
+      formIfCompleted[`subTasks.${0}`] = false;
+      formHash[`subTasks.${0}`] = null;
+    }
+    
+
+    // console.log('useEffect', formIfCompleted, formHash);
 
     setIfCompletedValues(formIfCompleted);
     setHashValues(formHash);

@@ -35,26 +35,26 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
 
       // extendAll(objReq, values);
 
-      objReq.deadline = date.toISOString();
+      // objReq.deadline = date.toISOString();
       objReq.completed = ifCompleted;
       objReq.hash = String(hash);
     }
 
-    console.log('Submit:', objReq.checklist);
+    console.log('Submit:', objReq);
 
-    // const response = await api.createTodos.fetch(objReq);
+    const response = await api.createTodos.fetch(objReq);
 
-    // if (response.status === 201) {
-    //   const { data } = await response.json();
-    //   console.log(data);
-    // } else {
-    //   const error = {
-    //     status: response.status,
-    //   };
-    //   console.log(error);
-    // }
+    if (response.status === 201) {
+      const { data } = await response.json();
+      console.log(data);
+    } else {
+      const error = {
+        status: response.status,
+      };
+      console.log(error);
+    }
 
-    // document.location.reload();
+    document.location.reload();
   };
 
   const deleteTask = async () => {
@@ -137,7 +137,7 @@ export const TaskCard = ({ ifClickedTask, initialValues, resetInitialValues }) =
             />
           
             <MyChecklist
-              label="Checklist"
+              label="Checklist (Work in Progress)"
               type="text"
               name="checklist"
               checklist={checklist}
